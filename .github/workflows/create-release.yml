@@ -42,8 +42,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Github Release
-      uses: anton-yurchenko/git-release@v6.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
-        UNRELEASED_TAG: ${{ needs.create-tag.outputs.version }}
-        RELEASE_NAME_PREFIX: "Release: "
+      uses: taiki-e/create-gh-release-action@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN}}
+        ref: refs/tags/${{ needs.create-tag.outputs.version }}
+        changelog: "CHANGELOG.md"
