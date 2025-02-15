@@ -15,13 +15,17 @@ permissions:
 jobs:
   create-tag:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.VERSION }}
     steps:
     - uses: actions/checkout@v4
 
     - name: Get lib version and set environment variable
+      id: get-version
       run: |
         VERSION=$(grep 'VERSION' src/Constants.php |  grep -oE '[0-9]+\.[0-9]+\.([0-9]+|[0-9]+-[a-z]+)')
         echo "VERSION=$VERSION" >> $GITHUB_ENV
+        echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
     - name: Create and publish tag
       run: |
@@ -41,4 +45,5 @@ jobs:
       uses: anton-yurchenko/git-release@v6.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
+        UNRELEASED_TAG: ${{ needs.create-tag.outputs.version }}
         RELEASE_NAME_PREFIX: "Release: "
