@@ -18,7 +18,7 @@ jobs:
     outputs:
       version: ${{ steps.get-version.outputs.VERSION }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Get lib version and set environment variable
       id: get-version
@@ -40,7 +40,7 @@ jobs:
     needs: create-tag
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Github Release
       uses: taiki-e/create-gh-release-action@v1
       with:
